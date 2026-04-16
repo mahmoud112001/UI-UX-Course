@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI/UX Analysis: Jumia vs Amazon | Mahmoud Awad Saad</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e',
+                        },
+                        accent: {
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .sticky-nav {
+            backdrop-filter: blur(12px);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #0ea5e9;
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0369a1;
+        }
+
+        /* Tab Animation */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-button.active {
+            background: #0ea5e9;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Navigation -->
+    <nav class="sticky-nav fixed w-full top-0 z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold gradient-text">UX Analysis</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#overview" class="text-gray-700 hover:text-primary-600 transition-colors">Overview</a>
+                    <a href="#principles" class="text-gray-700 hover:text-primary-600 transition-colors">Principles</a>
+                    <a href="#comparison" class="text-gray-700 hover:text-primary-600 transition-colors">Comparison</a>
+                    <a href="#insights" class="text-gray-700 hover:text-primary-600 transition-colors">Insights</a>
+                    <a href="#recommendations" class="text-gray-700 hover:text-primary-600 transition-colors">Recommendations</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#overview" class="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Overview</a>
+                <a href="#principles" class="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Principles</a>
+                <a href="#comparison" class="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Comparison</a>
+                <a href="#insights" class="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Insights</a>
+                <a href="#recommendations" class="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Recommendations</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="animate-fade-in">
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+                    UI/UX Comparative Analysis
+                </h1>
+                <p class="text-2xl md:text-3xl text-blue-100 mb-4">
+                    Jumia vs Amazon
+                </p>
+                <p class="text-lg md:text-xl text-blue-200 mb-12 max-w-3xl mx-auto">
+                    A comprehensive evaluation based on Gestalt Theory, Usability, Utility, and the 5Es Framework
+                </p>
+                <a href="#overview" class="inline-block bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
+                    Explore Analysis
+                </a>
+            </div>
+            
+            <!-- Metadata -->
+            <div class="mt-16 text-blue-100 text-sm space-y-2">
+                <p><strong>Prepared by:</strong> Mahmoud Awad Saad</p>
+                <p><strong>Program:</strong> ITI — ICC | MEARN Track</p>
+                <p><strong>Instructor:</strong> Eng. Rania Hussien Ibrahim</p>
+                <p><strong>Year:</strong> 2026</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Project Overview</h2>
+                <div class="w-24 h-1 bg-primary-500 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-3xl font-bold mb-6 text-gray-900">Purpose & Scope</h3>
+                    <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                        This analysis evaluates two major e-commerce platforms through the lens of established UI/UX principles. The goal is to identify best practices, uncover usability issues, and provide actionable recommendations for improvement.
+                    </p>
+                    <p class="text-lg text-gray-700 leading-relaxed">
+                        In e-commerce, user experience directly impacts conversion rates, customer satisfaction, and business success. This study demonstrates how theoretical UX principles translate into real-world design decisions.
+                    </p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl">
+                    <h4 class="text-2xl font-bold mb-6 text-gray-900">Key Statistics</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-700">Abandonment after bad UX</span>
+                            <span class="text-3xl font-bold text-primary-600">88%</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-700">Will search for alternatives</span>
+                            <span class="text-3xl font-bold text-primary-600">79%</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-700">Conversion increase potential</span>
+                            <span class="text-3xl font-bold text-primary-600">400%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Principles Section -->
+    <section id="principles" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Evaluation Framework</h2>
+                <div class="w-24 h-1 bg-primary-500 mx-auto rounded-full"></div>
+                <p class="text-xl text-gray-600 mt-6 max-w-3xl mx-auto">
+                    Our analysis is grounded in four fundamental UI/UX methodologies
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Gestalt Theory Card -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg card-hover border border-gray-100">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">Gestalt Theory</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Visual perception principles: proximity, similarity, continuity, symmetry, and figure-ground relationships
+                    </p>
+                </div>
+                
+                <!-- Usability Card -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg card-hover border border-gray-100">
+                    <div class="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">Usability</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Effectiveness, efficiency, and satisfaction in achieving user goals with minimal friction
+                    </p>
+                </div>
+                
+                <!-- Utility Card -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg card-hover border border-gray-100">
+                    <div class="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">Utility</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Whether features provide genuine value and solve actual user needs effectively
+                    </p>
+                </div>
+                
+                <!-- 5Es Card -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg card-hover border border-gray-100">
+                    <div class="w-16 h-16 bg-orange-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">The 5Es</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Effective, Efficient, Engaging, Error Tolerant, and Easy to Learn
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section id="comparison" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Platform Comparison</h2>
+                <div class="w-24 h-1 bg-primary-500 mx-auto rounded-full"></div>
+                <p class="text-xl text-gray-600 mt-6">
+                    Detailed analysis of strengths and weaknesses
+                </p>
+            </div>
+            
+            <!-- Tab Buttons -->
+            <div class="flex justify-center mb-12">
+                <div class="inline-flex rounded-lg border border-gray-200 bg-gray-50 p-1">
+                    <button onclick="switchTab('jumia')" id="tab-jumia" class="tab-button active px-8 py-3 rounded-md font-semibold transition-all">
+                        Jumia
+                    </button>
+                    <button onclick="switchTab('amazon')" id="tab-amazon" class="tab-button px-8 py-3 rounded-md font-semibold transition-all">
+                        Amazon
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Jumia Content -->
+            <div id="content-jumia" class="tab-content active">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Jumia Strengths -->
+                    <div class="bg-green-50 rounded-2xl p-8 border-2 border-green-200">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mr-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Strengths</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Symmetric View:</strong> Creates visual harmony and predictable layout</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Trending Searches:</strong> Helps discover popular items</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Icons with Descriptions:</strong> Reduces cognitive load</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Minimalistic Forms:</strong> Streamlined signup process</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Progress Indicators:</strong> Flash sale timers create urgency</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Breadcrumbs:</strong> Excellent navigation orientation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Recommendations:</strong> "Customers also viewed" feature</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Jumia Weaknesses -->
+                    <div class="bg-red-50 rounded-2xl p-8 border-2 border-red-200">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center mr-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Weaknesses</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Post-Submit Validation:</strong> Wastes user time</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>No Back Button:</strong> Users feel trapped in forms</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Cart Crashes:</strong> Critical stability issue</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Loading Screens:</strong> Unnecessary delays on cart actions</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>No Social Proof:</strong> Missing ratings and view counts</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Flashing Buttons:</strong> Accessibility and distraction issues</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Poor Image Flexibility:</strong> Cannot examine products closely</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Excessive Form Steps:</strong> Too many actions required</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Amazon Content -->
+            <div id="content-amazon" class="tab-content">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Amazon Strengths -->
+                    <div class="bg-green-50 rounded-2xl p-8 border-2 border-green-200">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mr-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Strengths</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>WhatsApp Verification:</strong> Familiar, convenient process</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Minimal Form Actions:</strong> Streamlined, efficient processes</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Comprehensive Social Proof:</strong> Ratings, reviews, purchase counts</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Intuitive Navigation:</strong> Easy menu browsing</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Instant Cart Operations:</strong> No loading screens</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Flexible Product Images:</strong> Zoom, multiple angles</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Progressive Disclosure:</strong> One action per form stage</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Easy to Learn:</strong> Intuitive interface for all users</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Breadcrumbs:</strong> Clear navigation context</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Amazon Weaknesses -->
+                    <div class="bg-red-50 rounded-2xl p-8 border-2 border-red-200">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center mr-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Weaknesses</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Asymmetric Layout:</strong> Some sections lack visual balance</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700"><strong>Footer Complexity:</strong> Information density can be overwhelming</span>
+                            </li>
+                        </ul>
+                        
+                        <div class="mt-8 p-4 bg-white rounded-lg border border-green-200">
+                            <p class="text-sm text-gray-600">
+                                <strong>Note:</strong> Amazon demonstrates significantly fewer UX issues compared to competitors, with weaknesses being relatively minor refinement opportunities rather than critical problems.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Insights Section -->
+    <section id="insights" class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Key Insights</h2>
+                <div class="w-24 h-1 bg-primary-500 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <!-- Insight Card 1 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg">
+                    <div class="text-5xl font-bold text-primary-600 mb-4">1</div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">Performance Over Aesthetics</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        Amazon prioritizes operational excellence. No crashes, loading screens, or delays. Jumia's visual appeal is undermined by technical instability.
+                    </p>
+                </div>
+                
+                <!-- Insight Card 2 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg">
+                    <div class="text-5xl font-bold text-primary-600 mb-4">2</div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">Social Proof is Critical</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        Amazon's comprehensive ratings, reviews, and purchase counts significantly reduce purchase hesitation. Jumia's lack of this data creates trust gaps.
+                    </p>
+                </div>
+                
+                <!-- Insight Card 3 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg">
+                    <div class="text-5xl font-bold text-primary-600 mb-4">3</div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">Error Prevention Wins</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        Amazon's inline validation and single-action forms prevent errors before they happen. Jumia's post-submission validation frustrates users.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Performance Matrix -->
+            <div class="bg-white rounded-2xl p-8 shadow-lg">
+                <h3 class="text-3xl font-bold mb-8 text-center text-gray-900">Overall Performance Matrix</h3>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b-2 border-gray-200">
+                                <th class="text-left py-4 px-4 font-bold text-gray-900">Dimension</th>
+                                <th class="text-center py-4 px-4 font-bold text-gray-900">Jumia</th>
+                                <th class="text-center py-4 px-4 font-bold text-gray-900">Amazon</th>
+                                <th class="text-center py-4 px-4 font-bold text-gray-900">Winner</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-4 px-4 font-semibold">Visual Design (Gestalt)</td>
+                                <td class="py-4 px-4 text-center">⭐⭐⭐⭐</td>
+                                <td class="py-4 px-4 text-center">⭐⭐⭐</td>
+                                <td class="py-4 px-4 text-center"><span class="inline-block bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm font-semibold">Jumia</span></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-4 px-4 font-semibold">Usability</td>
+                                <td class="py-4 px-4 text-center">⭐⭐</td>
+                                <td class="py-4 px-4 text-center">⭐⭐⭐⭐⭐</td>
+                                <td class="py-4 px-4 text-center"><span class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Amazon</span></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-4 px-4 font-semibold">Utility</td>
+                                <td class="py-4 px-4 text-center">⭐⭐⭐</td>
+                                <td class="py-4 px-4 text-center">⭐⭐⭐⭐⭐</td>
+                                <td class="py-4 px-4 text-center"><span class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Amazon</span></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-4 px-4 font-semibold">Effectiveness</td>
+                                <td class="py-4 px-4 text-center">⭐⭐⭐</td>
+                                <td class="py-4 px-4 text-center">⭐⭐⭐⭐⭐</td>
+                                <td class="py-4 px-4 text-center"><span class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Amazon</span></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-4 px-4 font-semibold">Efficiency</td>
+                                <td class="py-4 px-4 text-center">⭐⭐</td>
+                                <td class="py-4 px-4 text-center">⭐⭐⭐⭐⭐</td>
+                                <td class="py-4 px-4 text-center"><span class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Amazon</span></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-4 px-4 font-semibold">Engagement</td>
+                                <td class="py-4 px-4 text-center">⭐⭐⭐</td>
+                                <td class="py-4 px-4 text-center">⭐⭐⭐⭐</td>
+                                <td class="py-4 px-4 text-center"><span class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Amazon</span></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-4 px-4 font-semibold">Error Tolerance</td>
+                                <td class="py-4 px-4 text-center">⭐⭐</td>
+                                <td class="py-4 px-4 text-center">⭐⭐⭐⭐</td>
+                                <td class="py-4 px-4 text-center"><span class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Amazon</span></td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-4 px-4 font-semibold">Ease of Learning</td>
+                                <td class="py-4 px-4 text-center">⭐⭐⭐</td>
+                                <td class="py-4 px-4 text-center">⭐⭐⭐⭐⭐</td>
+                                <td class="py-4 px-4 text-center"><span class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Amazon</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommendations Section -->
+    <section id="recommendations" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Recommendations</h2>
+                <div class="w-24 h-1 bg-primary-500 mx-auto rounded-full"></div>
+                <p class="text-xl text-gray-600 mt-6">
+                    Actionable improvements for both platforms
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Jumia Recommendations -->
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center mr-4">
+                            <span class="text-white font-bold text-xl">J</span>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-900">For Jumia</h3>
+                    </div>
+                    
+                    <!-- Critical Priority -->
+                    <div class="mb-8">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-3">CRITICAL</span>
+                            <h4 class="text-xl font-bold text-gray-900">Immediate Actions</h4>
+                        </div>
+                        <ul class="space-y-3 ml-4">
+                            <li class="flex items-start">
+                                <span class="inline-block w-6 h-6 bg-red-100 text-red-600 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 font-bold text-sm">1</span>
+                                <span class="text-gray-700"><strong>Fix Cart Stability:</strong> Implement robust state management and load testing</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="inline-block w-6 h-6 bg-red-100 text-red-600 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 font-bold text-sm">2</span>
+                                <span class="text-gray-700"><strong>Remove Loading Screens:</strong> Optimize cart operations with optimistic UI updates</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="inline-block w-6 h-6 bg-red-100 text-red-600 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 font-bold text-sm">3</span>
+                                <span class="text-gray-700"><strong>Implement Inline Validation:</strong> Real-time error checking instead of post-submission</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- High Priority -->
+                    <div class="mb-8">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-3">HIGH</span>
+                            <h4 class="text-xl font-bold text-gray-900">Important Improvements</h4>
+                        </div>
+                        <ul class="space-y-3 ml-4">
+                            <li class="flex items-start">
+                                <span class="inline-block w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 font-bold text-sm">4</span>
+                                <span class="text-gray-700"><strong>Add Navigation Controls:</strong> Back buttons and progress saving in forms</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="inline-block w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 font-bold text-sm">5</span>
+                                <span class="text-gray-700"><strong>Enhance Product Pages:</strong> Add ratings, views, and flexible image viewing</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="inline-block w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 font-bold text-sm">6</span>
+                                <span class="text-gray-700"><strong>Improve Recommendations:</strong> Ensure category consistency in related products</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Medium Priority -->
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-3">MEDIUM</span>
+                            <h4 class="text-xl font-bold text-gray-900">Enhancement Opportunities</h4>
+                        </div>
+                        <ul class="space-y-3 ml-4">
+                            <li class="flex items-start">
+                                <span class="inline-block w-6 h-6 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 font-bold text-sm">7</span>
+                                <span class="text-gray-700"><strong>Remove Disruptive Elements:</strong> Eliminate flashing buttons and unnecessary popups</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="inline-block w-6 h-6 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 font-bold text-sm">8</span>
+                                <span class="text-gray-700"><strong>Redesign Footer:</strong> Simplify information architecture and improve mobile responsiveness</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Amazon Recommendations -->
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mr-4">
+                            <span class="text-white font-bold text-xl">A</span>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-900">For Amazon</h3>
+                    </div>
+                    
+                    <!-- Enhancement Opportunities -->
+                    <div class="mb-8">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-3">REFINEMENT</span>
+                            <h4 class="text-xl font-bold text-gray-900">Enhancement Opportunities</h4>
+                        </div>
+                        <ul class="space-y-3 ml-4">
+                            <li class="flex items-start">
+                                <span class="inline-block w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 font-bold text-sm">1</span>
+                                <span class="text-gray-700"><strong>Improve Visual Symmetry:</strong> Apply Gestalt principles more consistently across layouts</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="inline-block w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 font-bold text-sm">2</span>
+                                <span class="text-gray-700"><strong>Optimize Footer:</strong> Reduce information density and implement collapsible sections</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Continue Excellence -->
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8">
+                        <div class="flex items-center mb-4">
+                            <svg class="w-8 h-8 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <h4 class="text-xl font-bold text-gray-900">Continue Excellence In:</h4>
+                        </div>
+                        <ul class="space-y-2">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Performance optimization and system stability</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Comprehensive user feedback mechanisms</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Progressive disclosure in complex processes</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Social proof integration (ratings, reviews, purchase data)</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Instant feedback on user actions</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gradient-bg py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center text-white">
+            <div class="mb-6">
+                <h3 class="text-2xl font-bold mb-2">UI/UX Comparative Analysis</h3>
+                <p class="text-blue-200">Jumia vs Amazon</p>
+            </div>
+            
+            <div class="border-t border-blue-400 pt-6 space-y-2 text-blue-100">
+                <p><strong>Prepared by:</strong> Mahmoud Awad Saad</p>
+                <p><strong>Program:</strong> ITI — ICC | MEARN Stack Track</p>
+                <p><strong>Instructor:</strong> Eng. Rania Hussien Ibrahim</p>
+                <p><strong>Year:</strong> 2026</p>
+            </div>
+            
+            <div class="mt-8 text-blue-200 text-sm">
+                <p>&copy; 2026 Mahmoud Awad Saad. Academic Project.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Tab Switching Function
+        function switchTab(platform) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(`content-${platform}`).classList.add('active');
+            
+            // Add active class to selected button
+            document.getElementById(`tab-${platform}`).classList.add('active');
+        }
+        
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Scroll Animation for Cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all cards
+        document.querySelectorAll('.card-hover').forEach(card => {
+            observer.observe(card);
+        });
+        
+        // Active Navigation Highlight on Scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const scrollPosition = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    document.querySelectorAll('nav a').forEach(link => {
+                        link.classList.remove('text-primary-600', 'font-semibold');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('text-primary-600', 'font-semibold');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
